@@ -1,5 +1,7 @@
+-- The default plugins that came with the initial neovim install.
 require "user.options"
 require "user.keymaps"
+require "user.abbreviations"
 require "user.plugins"
 require "user.colorscheme"
 require "user.cmp"
@@ -19,3 +21,6 @@ require "user.indentline"
 require "user.alpha"
 require "user.whichkey"
 require "user.autocommands"
+
+-- Plugins that I added after the defaults of above.
+require "nvim-surround"
