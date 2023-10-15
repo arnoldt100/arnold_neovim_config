@@ -40,7 +40,9 @@ packer.init({
 
 -- Install your plugins here
 return packer.startup(function(use)
-  use { "wbthomason/packer.nvim", commit = "6afb67460283f0e990d35d229fd38fdc04063e0a" } -- Have packer manage itself
+  use { "wbthomason/packer.nvim", 
+        tag = "*",
+        requires = 'nvim-tree/nvim-web-devicons' } -- Have packer manage itself
   use { "nvim-lua/plenary.nvim", commit = "4b7e52044bbb84242158d977a50c4cbcd85070c7" } -- Useful lua functions used by lots of plugins
   use { "windwp/nvim-autopairs", commit = "4fc96c8f3df89b6d23e5092d31c866c53a346347" } -- Autopairs, integrates with both cmp and treesitter
   use { "numToStr/Comment.nvim", commit = "97a188a98b5a3a6f9b1b850799ac078faa17ab67" }
@@ -84,6 +86,33 @@ return packer.startup(function(use)
         -- }) 
       }
 
+  use { "rebelot/kanagawa.nvim",
+	require('kanagawa').setup({
+	    compile = false,             -- enable compiling the colorscheme
+	    undercurl = true,            -- enable undercurls
+	    commentStyle = { italic = true },
+	    functionStyle = {},
+	    keywordStyle = { italic = true},
+	    statementStyle = { bold = true },
+	    typeStyle = {},
+	    transparent = false,         -- do not set background color
+	    dimInactive = false,         -- dim inactive window `:h hl-NormalNC`
+	    terminalColors = true,       -- define vim.g.terminal_color_{0,17}
+	    colors = {                   -- add/modify theme and palette colors
+		palette = {},
+		theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+	    },
+	    overrides = function(colors) -- add/modify highlights
+		return {}
+	    end,
+	    theme = "wave",              -- Load "wave" theme when 'background' option is not set
+	    background = {               -- map the value of 'background' option to a theme
+		dark = "wave",           -- try "dragon" !
+		light = "lotus"
+	    },
+	})
+      }
+
   use { "ellisonleao/gruvbox.nvim" }
 
   -- Cmp 
@@ -95,7 +124,10 @@ return packer.startup(function(use)
   use { "hrsh7th/cmp-nvim-lua", commit = "d276254e7198ab7d00f117e88e223b4bd8c02d21" }
 
 	-- Snippets
-  use { "L3MON4D3/LuaSnip", commit = "8f8d493e7836f2697df878ef9c128337cbf2bb84" } --snippet engine
+  use { "L3MON4D3/LuaSnip", 
+        commit = "8f8d493e7836f2697df878ef9c128337cbf2bb84"
+      } --snippet engine
+
   use { "rafamadriz/friendly-snippets", commit = "2be79d8a9b03d4175ba6b3d14b082680de1b31b1" } -- a bunch of snippets to use
 
 	-- LSP
@@ -111,7 +143,11 @@ return packer.startup(function(use)
 	-- Treesitter
 	use {
 		"nvim-treesitter/nvim-treesitter",
-		commit = "8e763332b7bf7b3a426fd8707b7f5aa85823a5ac",
+		run = function()
+                local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+                ts_update()
+                end,
+		tag = "*"
 	}
 
 	-- Git
